@@ -1,0 +1,155 @@
+hm
+
+no	name	point	addr
+
+1	홍길동	30	서울
+2	일지매	50	수원
+3	이지매	40	서울
+릴레이션, 튜플, 컬럼
+
+문제1. 점수가 50미만인 [회원수(집계기능)]
+
+select count(*) 
+from hm
+where point < 50
+
+문제2. 점수가 50미만인 회원을 모두출력 점수가 높은순서대로(정렬)
+
+select *
+from hm
+where point < 50
+order by point desc
+
+
+a. select 화면에 출력되는 컬럼값 확인
+b. from 대상테이블 
+c. where 튜플 선정 조건
+d. order by 정렬
+
+b > c > a > d 순으로  
+from > where > select > order by
+
+-order by절
+desc : 내림차순
+asc : 오름차순
+
+문제1 : 모든 사람의 이름과 점수만 출력하시오
+select name,point 
+from hm;
+
+문제2 : 점수가 50점 미만인 사람의 이름과 점수를 출력하시오.
+select name,point 
+from hm
+where point < 50;
+
+문제3 : 점수가 50점 미만인 사람은 모두 몇명인가요?
+select count(*)
+from hm
+where point < 50;
+
+문제4 : 홍길동의 점수는 몇점 인가요?
+select point
+from hm
+where NAME = '홍길동';
+
+문제5 : 일지매의 모든 정보를 출력하세요.
+SELECT *
+FROM HM
+WHERE NAME  = '일지매';
+
+문제6 : 모든 회원을 출력하되 가입 순서대로 출력하시오
+SELECT *
+FROM HM
+ORDER BY INDATE DESC;
+
+NAME대신 이름이 들어간다.  =  별칭을 지정한다.
+SELECT NO , NAME 이름
+FROM HM
+WHERE POINT < 50;
+
+조건의 정의 - 참과 거짓을 가지고 있다.
+함수의 정의 - 특정한 기능을 가지고있다.
+	      <리턴>값을 가지고 코드를 구현한다.
+
+문제 1. 모든 학생의 이름과 포인트를 출력합니다.
+          포인트는 현재 포인트에서 10점 올려서 출력
+
+SELECT NAME 이름,POINT+10 가산포인트
+FROM HM;
+
+문제 2. 모든 학생의 이름과 포인트를 출력
+          출력은 이름 현재포인트 가산포인트
+	이름은 학생의 이름 현재포인트는 저장된 포인트
+	가산포인트는 +10점 올린 포인트
+
+SELECT NAME 이름,POINT 현재포인트,POINT+10 가산포인트
+FROM HM;
+
+SELECT * FROM HM;
+
+업데이트문 네임과 포인트를 수정한다.
+UPDATE HM SET POINT=100, NAME='김티처';
+
+딜리트문 HM테이블의 튜플을 전부 삭제한다.
+DELETE FROM HM;
+
+
+1. 테이블 관리 : craete table, drop tabel,alter table	      
+	       : 테이블(릴레이션), 속성(속성타임, 제약조건)
+	       : 타임 - int, number*, varchar2,timestamp
+	       : 제약 조건 : 유일성(기본키, unique), not null, check, default
+	       : 키 - 기본키 - 유일성, not null, 인덱스형성(검색속도 향상 
+						-where절에서 사용)
+		   외래키 - 컬럼 투 컬럼, 자식 릴레이션 컬럼이 부모 
+			  릴레이션의 컬럼을 참조한다.
+			  외래키 제약 조건 : cascade, set null
+	       : ERD - 개체와 개체의 관계분석 1:1, 1:N, N:M 분석후 테이블 형성
+
+2. 테이블에 저장된 튜플의 조작
+	CRUD
+	삽입 - INSERT
+	갱신 - UPDATE : 특정 튜플을 선택하여 갱신하려면 WHERE절 사용
+	삭제 - DELETE : 특정 튜플을 선택하여 삭제하려면 WHERE절 사용
+	검색 - SELECT : 각 절의 의미 암기, 절의 실행 순서 이해
+      <실행순서 >       < 절의 의미 >
+	4	SELECT절 : 컬럼 선택
+	1	FROM절 : 대상 테이블 
+	2	WHERE절 : 대상 테이블로 부터 튜플을 선정할 조건
+	3	GROUP BY 절 : 그룹화
+	5	ORDER BY 절 : 출력할 때 정렬
+
+3. 함수 : 함수를 호출하고 함수의 기능을 싱행하고 결과값을 리턴,
+	결과값을 리턴받아서 처리 한다... 예를 들어 COUNT(*)함수를 호출하면 튜플의 수를
+	카운팅하여 카운팅 결과값을 리턴한다.
+
+select concat('이름','님') 이름 from dual;
+select *
+from hm
+where point > 20
+order by point desc;
+select sysdate from dual;
+
+'dual' 오라클에서 제공하는 빈 릴레이션
+
+hm테이블에서 작업하시오.
+1. 이름뒤에 님을 붙혀서 출력하시오. 모든 사람의 이름과 포인트를 출력합니다.
+select concat(name,'님') 이름,point
+from hm;
+
+2. 모든 사람의 이름과 포인트와 등록일을 출력합니다.
+   이때 가입순서에 따라 출렵합니다. 가장 나중에 가입한 사람이 제일 먼저 출력
+select name,point,indate
+from hm
+order by indate desc;
+
+3. 포인트가 50이상인 사람의 이름과 정보를 출력합니다.
+   정보는 no,이름,포인트가 합쳐진 문자열이다.
+select name 이름, no||name||point 정보	(= concat(concat(no,name),point) )
+from hm
+where point >= 50;
+
+4. 기준포인트는 60이다. 모든 회원이 기준포인트를 맞추기 위해서 부족한
+   포인트를 출력하시오.. 출력은 이를 현재포인트 부족한포인트 
+
+select point 현재포인트, 60-point 부족한포인트
+from hm;
